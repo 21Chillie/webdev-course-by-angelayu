@@ -1,0 +1,22 @@
+{
+  "name": "ejs-tags-exercise",
+  "version": "1.0.0",
+  "description": "EJS Tags Practice (Section 25 EJS - EJS Tags)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ejs",
+    "nodejs",
+    "expressjs",
+    "back-end"
+  ],
+  "author": "Real",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}

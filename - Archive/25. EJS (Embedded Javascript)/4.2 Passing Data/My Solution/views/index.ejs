@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EJS - Passing Data</title>
+  </head>
+  <body>
+    <!-- Check if the `nameLength` variable has been passed to the EJS template -->
+    <% if (locals.nameLength) { %>
+    <!-- If `nameLength` is defined, display the number of letters in the name -->
+    <h1>There are <%= nameLength %> letters in your name</h1>
+    <% } else { %>
+    <!-- If `nameLength` is undefined (e.g., on the initial page load), show a prompt -->
+    <h1>Enter your name below</h1>
+    <% } %>
+
+    <!-- A form to collect the user's first name and last name -->
+    <form action="/submit" method="POST">
+      <!-- Input for the first name -->
+      <input type="text" name="fName" placeholder="First name" />
+      <!-- Input for the last name -->
+      <input type="text" name="lName" placeholder="Last name" />
+      <!-- Submit button -->
+      <input type="submit" value="OK" />
+    </form>
+  </body>
+</html>

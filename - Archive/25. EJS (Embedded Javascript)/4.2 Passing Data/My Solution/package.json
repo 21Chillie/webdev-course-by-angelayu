@@ -1,0 +1,24 @@
+{
+  "name": "ejs-passing-data",
+  "version": "1.0.0",
+  "description": "EJS Passing Data Practice",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ejs",
+    "nodejs",
+    "expressjs",
+    "learning",
+    "back-end"
+  ],
+  "author": "Real",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}

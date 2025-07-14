@@ -1,0 +1,21 @@
+{
+  "name": "learning-npm",
+  "version": "1.0.0",
+  "description": "Learning NPM",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "learing",
+    "npm",
+    "nodejs"
+  ],
+  "author": "Real",
+  "license": "ISC",
+  "dependencies": {
+    "superheroes": "^4.0.0",
+    "supervillains": "^4.0.0"
+  }
+}
