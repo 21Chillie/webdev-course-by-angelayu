@@ -1,0 +1,1 @@
+First, take the time to truly understand the problem—break it down, explore it from all angles. Only then, once the solution is clear in your mind, should you begin to write the code.
