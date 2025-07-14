@@ -1,0 +1,18 @@
+{
+  "name": "challenge-learning-custom-middleware",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "Real"
+  ],
+  "license": "ISC",
+  "author": "Real",
+  "type": "module",
+  "main": "index3.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

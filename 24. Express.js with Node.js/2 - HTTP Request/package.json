@@ -1,0 +1,15 @@
+{
+  "name": "learning-http-request",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Real",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
