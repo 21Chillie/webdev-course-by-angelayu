@@ -1,0 +1,97 @@
+/* Root Reset */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+main {
+	display: flex;
+	justify-content: center;
+}
+
+/* Blog Form Container */
+.blog-form {
+	max-width: 1000px;
+	width: 100%;
+	padding: 32px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+/* Title */
+.blog-form h2 {
+	text-align: center;
+	color: #31ffa8;
+	font-size: 24px;
+}
+
+/* Label + Inputs */
+.form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.form-group label {
+	font-weight: 600;
+	color: #31ffa8;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group textarea {
+	padding: 12px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	background-color: #f9f9f9;
+	transition: border 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+	border-color: #31ffa8;
+	outline: none;
+}
+
+/* Submit Button */
+.blog-form button {
+	background-color: #31ffa8;
+	color: black;
+	padding: 14px;
+	font-size: 16px;
+	font-weight: bold;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: opacity 0.3s ease;
+}
+
+.blog-form button:hover {
+	opacity: 0.8;
+}
+
+/* Responsive Text Sizes */
+@media (max-width: 480px) {
+	.blog-form {
+		padding: 20px;
+	}
+
+	.blog-form h2 {
+		font-size: 20px;
+	}
+
+	.form-group input[type="text"],
+	.form-group textarea {
+		font-size: 14px;
+	}
+
+	.blog-form button {
+		font-size: 14px;
+		padding: 12px;
+	}
+}

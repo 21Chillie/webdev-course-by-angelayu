@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>TechNews | <%= post.title %></title>
+		<link rel="stylesheet" href="/styles/main.css" />
+		<link rel="stylesheet" href="/styles/post.css" />
+	</head>
+	<body>
+		<%- include('partials/header.ejs') %>
+
+		<main>
+			<article class="blog-post">
+				<h1 class="post-title"><%= post.title %></h1>
+
+				<img src="<%= post.image %>" alt="image of article" class="post-image" />
+
+				<div class="post-meta">
+					<div class="author-info">
+						<p><strong>By <%= post.writer %></strong> &bull; <%= post.date %></p>
+					</div>
+					<div class="post-actions">
+						<button>👍 Like</button>
+						<button>💬 Comment</button>
+						<button>🔁 Share</button>
+					</div>
+				</div>
+
+				<div class="post-content">
+					<p><%= post.content %></p>
+
+					<div class="action-button">
+						<a href="/"><button class="btn-back">Go Back</button></a>
+						<form action="/delete/<%= post.id %>" method="POST" style="display: inline">
+							<button class="btn-delete" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+						</form>
+					</div>
+				</div>
+			</article>
+		</main>
+	</body>
+</html>

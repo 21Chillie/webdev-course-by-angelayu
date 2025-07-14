@@ -1,0 +1,23 @@
+body {
+  font-family: sans-serif;
+  margin: 40px;
+  background: #f9f9f9;
+}
+
+h1 {
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+form {
+  margin-top: 10px;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+}

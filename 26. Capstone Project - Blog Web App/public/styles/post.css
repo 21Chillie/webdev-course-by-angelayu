@@ -1,0 +1,120 @@
+/* Root Reset */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+main {
+	display: flex;
+	justify-content: center;
+}
+
+.blog-post {
+	max-width: 800px;
+	margin: 40px auto;
+	background: #fff;
+	border-radius: 12px;
+	padding: 24px;
+	font-family: "Segoe UI", sans-serif;
+	color: #222;
+}
+
+.post-title {
+	font-size: 28px;
+	color: #0a8935;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.post-image {
+	width: 100%;
+	border-radius: 8px;
+	margin-bottom: 20px;
+}
+
+.post-meta {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+.author-info {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.author-avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.post-actions {
+	display: flex;
+	gap: 10px;
+}
+
+.post-actions button {
+	background-color: #0a8935;
+	color: white;
+	padding: 8px 14px;
+	font-size: 14px;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.post-actions button:hover {
+	background-color: #086c2b;
+}
+
+.post-content p {
+	font-size: 16px;
+	line-height: 1.6;
+	color: #333;
+}
+
+.action-button button {
+	margin-top: 24px;
+	color: white;
+	padding: 8px 14px;
+	font-size: 14px;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.btn-back {
+	background-color: gray;
+}
+
+.btn-delete {
+	background-color: red;
+	color: white;
+}
+
+.action-button button:hover {
+	opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+	.post-title {
+		font-size: 22px;
+	}
+
+	.post-actions {
+		flex-wrap: wrap;
+	}
+
+	.post-content p {
+		font-size: 15px;
+	}
+}
