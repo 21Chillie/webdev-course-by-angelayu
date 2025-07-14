@@ -1,0 +1,16 @@
+{
+  "name": "learning-npm-2",
+  "version": "1.0.0",
+  "description": "Create url/text to qr code image",
+  "license": "ISC",
+  "author": "Real",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "inquirer": "^12.6.3",
+    "qr-image": "^3.2.0"
+  }
+}

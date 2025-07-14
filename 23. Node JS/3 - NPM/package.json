@@ -1,0 +1,15 @@
+{
+	"name": "learning-npm",
+	"version": "1.0.0",
+	"description": "Learning npm using superheroes npm package",
+	"license": "ISC",
+	"author": "Real",
+	"type": "module",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"superheroes": "^4.0.0"
+	}
+}
