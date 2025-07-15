@@ -16,7 +16,7 @@ app.get("/", async (req, res) => {
 			user: result.data.username,
 		});
 	} catch (err) {
-		res.status(404).send(err.response.data);
+		res.status(404).send("Failed to fetch secrets");
 	}
 });
 
