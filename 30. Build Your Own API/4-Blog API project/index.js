@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 const app = express();
 const port = 4000;
 
-// In-memory data store
+// In-memory data store for blog posts
 let posts = [
   {
     id: 1,
@@ -34,7 +34,7 @@ let posts = [
 
 let lastId = 3;
 
-// Middleware
+// Middleware for parsing JSON and URL-encoded data
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -42,12 +42,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //CHALLENGE 1: GET All posts
 app.get("/posts", (req, res) => {
-  console.log(posts);
+  // Return all posts as JSON
   res.json(posts);
 });
 
 //CHALLENGE 2: GET a specific post by id
 app.get("/posts/:id", (req, res) => {
+  // Find a post by its ID
   const id = parseInt(req.params.id);
   const findPost = posts.find((post) => id === post.id);
 
@@ -60,6 +61,7 @@ app.get("/posts/:id", (req, res) => {
 
 //CHALLENGE 3: POST a new post
 app.post("/posts", (req, res) => {
+  // Add a new post to the posts array
   const { title, content, author } = req.body;
 
   const newPost = {
@@ -70,6 +72,7 @@ app.post("/posts", (req, res) => {
     date: new Date(),
   };
 
+  // If all fields is empty will return an error with message
   if (!req.body || !title || !content || !author) {
     res.status(400).json({ error: "All required fields must be fill." });
   } else {
@@ -80,6 +83,7 @@ app.post("/posts", (req, res) => {
 
 //CHALLENGE 4: PATCH a post when you just want to update one parameter
 app.patch("/posts/:id", (req, res) => {
+  // Update specific fields of a post by ID
   const id = parseInt(req.params.id);
   const postIndex = posts.findIndex((post) => id === post.id);
   const { title, content, author, date } = req.body;
@@ -113,12 +117,16 @@ app.patch("/posts/:id", (req, res) => {
 
 //CHALLENGE 5: DELETE a specific post by providing the post id.
 app.delete("/posts/:id", (req, res) => {
+  // Remove a post from the array by its ID
   const id = parseInt(req.params.id);
+
+  // Loop until it's find the match ID then create a new array without that ID.
   posts = posts.filter((post) => id !== post.id);
 
   res.status(200).json({ success: `Post with ID ${id} has been deleted` });
 });
 
 app.listen(port, () => {
+  // Start the server and listen on the specified port
   console.log(`API is running at http://localhost:${port}`);
 });
