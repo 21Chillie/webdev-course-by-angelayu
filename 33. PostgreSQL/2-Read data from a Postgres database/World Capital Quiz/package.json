@@ -1,0 +1,24 @@
+{
+  "name": "world-capital-quiz",
+  "version": "1.0.0",
+  "description": "Exercise for section 253 - read data from Postgres DB",
+  "keywords": [
+    "postgresql",
+    "nodejs",
+    "express"
+  ],
+  "license": "ISC",
+  "author": "Real",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "body-parser": "^2.2.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  }
+}
