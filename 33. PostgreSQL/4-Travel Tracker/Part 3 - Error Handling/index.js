@@ -28,17 +28,23 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+async function checkVisited() {
+  let countries = [];
+
+  const result = await pool.query("SELECT * FROM visited_countries");
+  result.rows.forEach((country) => countries.push(country.country_code));
+
+  return countries;
+}
+
 app.get("/", async (req, res) => {
   // Write code here
   try {
-    let countries = [];
-
-    const result = await pool.query("SELECT * FROM visited_countries");
-    result.rows.forEach((country) => countries.push(country.country_code));
-
+    const countries = await checkVisited();
     res.render("index", { countries: countries, total: countries.length });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err.message);
+    res.status(500).json({ error: "Oops something went wrong on our server" });
   }
 });
 
@@ -51,13 +57,19 @@ app.post("/add", async (req, res) => {
     const query = `
     SELECT country_code
     FROM countries
-    WHERE country_name = $1
+    WHERE LOWER(country_name) = $1
     `;
 
-    const result = await pool.query(query, [country]);
+    const result = await pool.query(query, [country.toLowerCase()]);
+    console.log(result.rows[0]);
     // If country not found will return error 404
     if (result.rows.length === 0) {
-      res.status(404).json({ error: "Country not found." });
+      const countries = await checkVisited();
+      return res.render("index", {
+        countries: countries,
+        total: countries.length,
+        error: "Country not found, try again!",
+      });
     }
 
     // Store country code into variable
@@ -67,7 +79,12 @@ app.post("/add", async (req, res) => {
     const checkCountry = await pool.query("SELECT * FROM visited_countries WHERE country_code = $1", [countryCode]);
 
     if (checkCountry.rows.length > 0) {
-      res.status(409).json({ error: "Country is already visited!" });
+      const countries = await checkVisited();
+      return res.render("index", {
+        countries: countries,
+        total: countries.length,
+        error: "Country already been visited, try again!",
+      });
     }
 
     // Country code from variable const countryCode will be insert into visited_countries table
@@ -81,5 +98,5 @@ app.post("/add", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server listening on port http://localhost/${PORT}`);
+  console.log(`Server listening on port http://localhost:${PORT}`);
 });
