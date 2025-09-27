@@ -1,34 +1,43 @@
 import express from "express";
-import bodyParser from "body-parser";
+import pg, { Pool } from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
+// Create a PostgreSQL pool
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASS,
+  port: process.env.DB_PORT,
+});
+
+// Test DB connection
+pool
+  .connect()
+  .then(() => {
+    console.log("✅ Connected to PostgreSQL");
+  })
+  .catch((err) => {
+    console.error("❌ Connection error:", err);
+  });
+
+// Setting
+app.set("view engine", "ejs");
+
+// Middlewware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-let items = [
-  { id: 1, title: "Buy milk" },
-  { id: 2, title: "Finish homework" },
-];
-
 app.get("/", (req, res) => {
-  res.render("index.ejs", {
-    listTitle: "Today",
-    listItems: items,
-  });
+  res.render("index");
 });
 
-app.post("/add", (req, res) => {
-  const item = req.body.newItem;
-  items.push({ title: item });
-  res.redirect("/");
-});
-
-app.post("/edit", (req, res) => {});
-
-app.post("/delete", (req, res) => {});
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server listening on port http://localhost:${PORT}`);
 });
