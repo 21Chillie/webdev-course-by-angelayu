@@ -85,6 +85,36 @@ app.post("/add", async (req, res) => {
   }
 });
 
+app.post("/edit", async (req, res) => {
+  const { updatedItemId, updatedItemTitle } = req.body;
+
+  try {
+    const result = await pool.query(
+      `
+      UPDATE
+        items i
+      SET
+        title = $1
+      WHERE
+        i.id = $2
+      RETURNING *
+      `,
+      [updatedItemTitle, updatedItemId]
+    );
+
+    if (result.rowCount > 0) {
+      console.log(`Items successfully edited: ${result.rows[0].title}`);
+      res.redirect("/");
+    } else {
+      console.log(`Edit error!`);
+      res.redirect("/");
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Database edit error!" });
+  }
+});
+
 app.post("/delete", async (req, res) => {
   const { deleteItemId } = req.body;
 
@@ -107,7 +137,7 @@ app.post("/delete", async (req, res) => {
     }
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ error: "Oops something went wrong!" });
+    res.status(500).json({ error: "Database delete error!" });
   }
 });
 
