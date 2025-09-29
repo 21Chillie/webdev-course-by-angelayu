@@ -76,12 +76,38 @@ app.post("/add", async (req, res) => {
 
       res.render("index", { listTitle: "Today", listItems: items, message });
     } else {
-      console.log(`Items successfully added, ${result.rows[0].title}`);
+      console.log(`Items successfully added: ${result.rows[0].title}`);
       res.redirect("/");
     }
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: "Database insert error!" });
+  }
+});
+
+app.post("/delete", async (req, res) => {
+  const { deleteItemId } = req.body;
+
+  try {
+    const result = await pool.query(
+      `
+      DELETE FROM items
+      WHERE id = $1
+      RETURNING *
+      `,
+      [deleteItemId]
+    );
+
+    if (result.rowCount > 0) {
+      console.log(`Items successfully deleted: ${result.rows[0].title}`);
+      res.redirect("/");
+    } else {
+      console.log(`Delete error!`);
+      res.redirect("/");
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Oops something went wrong!" });
   }
 });
 
