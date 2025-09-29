@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
-// Create a PostgreSQL pool
+// Create a PostgreSQL pool using environment variables
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -26,14 +26,15 @@ pool
     console.error("❌ Connection error:", err);
   });
 
-// Setting
+// Set EJS as the view engine
 app.set("view engine", "ejs");
 
-// Middlewware
+// Middleware for parsing JSON, form data, and serving static files
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+// Get all items from the database
 async function getPermalist() {
   let permaList = [];
 
@@ -49,6 +50,7 @@ async function getPermalist() {
   return permaList;
 }
 
+// Render the main page with all items
 app.get("/", async (req, res) => {
   try {
     const items = await getPermalist();
@@ -63,6 +65,7 @@ app.get("/", async (req, res) => {
   }
 });
 
+// Add a new item to the database
 app.post("/add", async (req, res) => {
   const { newItem } = req.body;
   let message;
@@ -85,6 +88,7 @@ app.post("/add", async (req, res) => {
   }
 });
 
+// Edit an existing item by ID
 app.post("/edit", async (req, res) => {
   const { updatedItemId, updatedItemTitle } = req.body;
 
@@ -115,6 +119,7 @@ app.post("/edit", async (req, res) => {
   }
 });
 
+// Delete an item by ID
 app.post("/delete", async (req, res) => {
   const { deleteItemId } = req.body;
 
@@ -141,6 +146,7 @@ app.post("/delete", async (req, res) => {
   }
 });
 
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server listening on port http://localhost:${PORT}`);
 });
