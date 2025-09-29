@@ -1,5 +1,5 @@
 import express from "express";
-import pg, { Pool } from "pg";
+import { Pool } from "pg";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -34,8 +34,33 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.render("index");
+async function getPermalist() {
+  let permaList = [];
+
+  const result = await pool.query(
+    `
+    SELECT *
+    FROM items
+    `
+  );
+
+  result.rows.forEach((item) => permaList.push(item));
+
+  return permaList;
+}
+
+app.get("/", async (req, res) => {
+  try {
+    const items = await getPermalist();
+
+    // Debug
+    console.log(items);
+
+    res.render("index", { listTitle: "Today", listItems: items });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Ooops something went wrong!" });
+  }
 });
 
 app.listen(PORT, () => {
