@@ -56,10 +56,32 @@ app.get("/", async (req, res) => {
     // Debug
     console.log(items);
 
-    res.render("index", { listTitle: "Today", listItems: items });
+    res.render("index", { listTitle: "Today", listItems: items, message: null });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: "Ooops something went wrong!" });
+  }
+});
+
+app.post("/add", async (req, res) => {
+  const { newItem } = req.body;
+  let message;
+
+  try {
+    const result = await pool.query("INSERT INTO items (title) VALUES ($1) RETURNING *", [newItem]);
+
+    if (!newItem) {
+      const items = await getPermalist();
+      message = "You must input something!";
+
+      res.render("index", { listTitle: "Today", listItems: items, message });
+    } else {
+      console.log(`Items successfully added, ${result.rows[0].title}`);
+      res.redirect("/");
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Database insert error!" });
   }
 });
 
