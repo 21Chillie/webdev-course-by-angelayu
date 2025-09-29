@@ -111,3 +111,8 @@ footer {
   color: white;
   text-align: center;
 }
+
+/* My added css */
+.message {
+  color: red;
+}
