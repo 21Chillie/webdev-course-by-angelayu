@@ -71,15 +71,16 @@ app.post("/add", async (req, res) => {
   let message;
 
   try {
-    const result = await pool.query("INSERT INTO items (title) VALUES ($1) RETURNING *", [newItem]);
-
     if (!newItem) {
       const items = await getPermalist();
       message = "You must input something!";
 
       res.render("index", { listTitle: "Today", listItems: items, message });
     } else {
+      const result = await pool.query("INSERT INTO items (title) VALUES ($1) RETURNING *", [newItem]);
+
       console.log(`Items successfully added: ${result.rows[0].title}`);
+
       res.redirect("/");
     }
   } catch (err) {
@@ -93,28 +94,27 @@ app.post("/edit", async (req, res) => {
   const { updatedItemId, updatedItemTitle } = req.body;
 
   try {
+    if (!updatedItemTitle) {
+      const items = await getPermalist();
+      const message = "You must input something!";
+
+      return res.render("index", { listTitle: "Today", listItems: items, message });
+    }
+
     const result = await pool.query(
       `
-      UPDATE
-        items i
-      SET
-        title = $1
-      WHERE
-        i.id = $2
+      UPDATE items i
+      SET title = $1
+      WHERE i.id = $2
       RETURNING *
       `,
       [updatedItemTitle, updatedItemId]
     );
 
-    if (result.rowCount > 0) {
-      console.log(`Items successfully edited: ${result.rows[0].title}`);
-      res.redirect("/");
-    } else {
-      console.log(`Edit error!`);
-      res.redirect("/");
-    }
+    console.log(`Items successfully edited: ${result.rows[0].title}`);
+    res.redirect("/");
   } catch (err) {
-    console.error(err.message);
+    console.error("Edit error:", err.message);
     res.status(500).json({ error: "Database edit error!" });
   }
 });
