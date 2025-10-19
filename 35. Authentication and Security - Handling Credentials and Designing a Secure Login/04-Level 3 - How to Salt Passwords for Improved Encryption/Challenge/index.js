@@ -2,10 +2,12 @@ import express from "express";
 import bodyParser from "body-parser";
 import { Pool } from "pg";
 import dotenv from "dotenv";
+import bycrypt from "bcrypt";
 
 dotenv.config();
 const app = express();
 const port = 3000;
+const saltRounds = 12;
 
 // PostgreSQL Setup
 const pool = new Pool({
@@ -40,8 +42,18 @@ app.get("/register", (req, res) => {
 	res.render("register.ejs");
 });
 
+app.get("/secret", (req, res) => {
+	res.render("secrets.ejs");
+});
+
 app.post("/register", async (req, res) => {
 	const { username, password } = req.body;
+
+	if (!username || !password) {
+		res.status(400).json({
+			error: "All required fields must be filled.",
+		});
+	}
 
 	try {
 		// Check if username is available
@@ -55,8 +67,11 @@ app.post("/register", async (req, res) => {
 
 		// if available, return status 500 with error
 		if (checkUsername.rowCount > 0) {
-			res.status(500).json({ error: "Username is already exists. Try logging in." });
+			res.status(409).json({ error: "Username is already exists. Try logging in." });
 		} else {
+			// Hash the password
+			const hash = await bycrypt.hash(password, saltRounds);
+
 			// Else, insert username and password in database
 			const insertAccount = await pool.query(
 				`
@@ -64,7 +79,7 @@ app.post("/register", async (req, res) => {
       VALUES ($1, $2)
       RETURNING *
       `,
-				[username, password]
+				[username, hash]
 			);
 
 			// Check if insert account and password is success, then redirect to login
@@ -77,7 +92,7 @@ app.post("/register", async (req, res) => {
 			}
 		}
 	} catch (err) {
-		res.status(500).json({ error: `Oops something went wrong!`, err: err.message });
+		res.status(500).json({ error: `Registration error!`, err: err.message });
 	}
 });
 
@@ -86,7 +101,7 @@ app.post("/login", async (req, res) => {
 
 	if (!username || !password) {
 		res.status(400).json({
-			error: "All required fields must be filled.",
+			error: "Username and password are required",
 		});
 	}
 
@@ -99,19 +114,21 @@ app.post("/login", async (req, res) => {
 			[username]
 		);
 
+		const hashPassword = result.rows[0].password;
+
 		// Check if username is found
 		if (result.rowCount > 0) {
 			// if username found, check input password and password in database are match.
-			if (password === result.rows[0].password) {
-				// Password matches
+			const isValidPassword = await bycrypt.compare(password, hashPassword);
+
+			if (isValidPassword) {
 				res.render("secrets.ejs");
 			} else {
-				// Else, password not matches
-				res.status(500).json({ error: "Username or password are incorrect" });
+				res.status(401).json({ error: "Username or password are incorrect" });
 			}
 		} else {
 			// Else, username not found
-			res.status(500).json({ error: "Username not found" });
+			res.status(400).json({ error: "Username not found" });
 		}
 	} catch (err) {
 		res.status(500).json({ error: "Something went wrong" });
